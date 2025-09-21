@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Câu Tường Thuật</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question label {
+            font-weight: bold;
+        }
+        .question input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .controls {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .controls button {
+            padding: 10px 20px;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        #checkBtn {
+            background-color: #007bff;
+        }
+        #checkBtn:hover {
+            background-color: #0056b3;
+        }
+        #showAnswersBtn {
+            background-color: #28a745;
+        }
+        #showAnswersBtn:hover {
+            background-color: #1e7e34;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .answers {
+            display: none;
+            margin-top: 20px;
+            border-top: 2px dashed #ccc;
+            padding-top: 20px;
+        }
+        .answers h2 {
+            text-align: center;
+        }
+        .answers ol {
+            padding-left: 20px;
+        }
+        .answers li {
+            margin-bottom: 10px;
+        }
+        .user-answer {
+            font-weight: normal;
+        }
+        .correct-answer {
+            color: green;
+        }
+        .wrong-answer {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bài Tập Câu Tường Thuật</h1>
+        <p><strong>Hướng dẫn:</strong> Chuyển các câu trực tiếp sau sang câu gián tiếp. Điền câu trả lời của bạn vào các ô trống và nhấn nút "Kiểm tra" để xem kết quả.</p>
+        
+        <form id="quizForm">
+            <div class="question">
+                <label for="q1">1. He said, "I am going to the cinema tonight."</label>
+                <input type="text" id="q1" name="q1" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q2">2. She said, "We finished our project yesterday."</label>
+                <input type="text" id="q2" name="q2" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q3">3. My father told me, "You can't use my car."</label>
+                <input type="text" id="q3" name="q3" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q4">4. "Are you happy with your new job?" my friend asked me.</label>
+                <input type="text" id="q4" name="q4" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q5">5. The police officer asked, "Where did you go last night?"</label>
+                <input type="text" id="q5" name="q5" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q6">6. "I'm sorry I forgot your birthday," said Nam.</label>
+                <input type="text" id="q6" name="q6" placeholder="Câu gián tiếp...">
+            </div>
+            
+            <div class="question">
+                <label for="q7">7. He said to me, "Don't touch this button!"</label>
+                <input type="text" id="q7" name="q7" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q8">8. Lan told her friend, "I must study harder for the final exam."</label>
+                <input type="text" id="q8" name="q8" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q9">9. "You may go home now," the boss said to his employee.</label>
+                <input type="text" id="q9" name="q9" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="question">
+                <label for="q10">10. My brother said, "I don't need to help him with his homework."</label>
+                <input type="text" id="q10" name="q10" placeholder="Câu gián tiếp...">
+            </div>
+
+            <div class="controls">
+                <button type="button" id="checkBtn">Kiểm tra</button>
+                <button type="button" id="showAnswersBtn">Xem đáp án</button>
+            </div>
+        </form>
+
+        <div id="result"></div>
+        
+        <div class="answers" id="answersSection">
+            <h2>Đáp Án Chi Tiết</h2>
+            <ol id="answerList"></ol>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: { text: "He said (that) he was going to the cinema that night.", aliases: ["he said that he was going to the cinema that night", "he said he was going to the cinema that night"] },
+            q2: { text: "She said (that) they had finished their project the day before/the previous day.", aliases: ["she said that they had finished their project the day before", "she said that they had finished their project the previous day", "she said they had finished their project the day before", "she said they had finished their project the previous day"] },
+            q3: { text: "My father told me (that) I couldn't use his car.", aliases: ["my father told me that i couldn't use his car", "my father told me i couldn't use his car"] },
+            q4: { text: "My friend asked me if/whether I was happy with my new job.", aliases: ["my friend asked me if i was happy with my new job", "my friend asked me whether i was happy with my new job"] },
+            q5: { text: "The police officer asked where I had gone the night before/the previous night.", aliases: ["the police officer asked where i had gone the night before", "the police officer asked where i had gone the previous night"] },
+            q6: { text: "Nam apologized for forgetting my birthday.", aliases: ["nam apologized for forgetting my birthday"] },
+            q7: { text: "He told/warned me not to touch that button.", aliases: ["he told me not to touch that button", "he warned me not to touch that button", "he told me not to touch the button", "he warned me not to touch the button"] },
+            q8: { text: "Lan told her friend (that) she had to study harder for the final exam.", aliases: ["lan told her friend that she had to study harder for the final exam", "lan told her friend she had to study harder for the final exam"] },
+            q9: { text: "The boss told his employee (that) he/she might go home then.", aliases: ["the boss told his employee that he might go home then", "the boss told his employee that she might go home then", "the boss told his employee he might go home then", "the boss told his employee she might go home then"] },
+            q10: { text: "My brother said (that) he didn't need to help him with his homework.", aliases: ["my brother said that he didn't need to help him with his homework", "my brother said he didn't need to help him with his homework"] }
+        };
+
+        const checkBtn = document.getElementById('checkBtn');
+        const showAnswersBtn = document.getElementById('showAnswersBtn');
+        const resultDiv = document.getElementById('result');
+        const answersSection = document.getElementById('answersSection');
+        const answerList = document.getElementById('answerList');
+        const totalQuestions = Object.keys(correctAnswers).length;
+
+        checkBtn.addEventListener('click', () => {
+            let score = 0;
+            for (const key in correctAnswers) {
+                const inputElement = document.getElementById(key);
+                // Normalize user input for comparison
+                const userAnswer = inputElement.value.trim().toLowerCase().replace(/[.,!?'"]/g, "");
+                
+                // Check if the normalized user answer exists in the aliases array
+                const isCorrect = correctAnswers[key].aliases.includes(userAnswer);
+
+                if (isCorrect) {
+                    score++;
+                }
+            }
+            resultDiv.innerHTML = `<h2>Tổng kết: ${score} / ${totalQuestions}</h2>`;
+        });
+
+        showAnswersBtn.addEventListener('click', () => {
+            answersSection.style.display = 'block';
+            answerList.innerHTML = '';
+            for (const key in correctAnswers) {
+                const inputElement = document.getElementById(key);
+                const userAnswer = inputElement.value.trim();
+                const normalizedUserAnswer = userAnswer.toLowerCase().replace(/[.,!?'"]/g, "");
+                const isCorrect = correctAnswers[key].aliases.includes(normalizedUserAnswer);
+
+                const listItem = document.createElement('li');
+                const questionText = document.querySelector(`label[for="${key}"]`).textContent;
+                
+                let feedbackClass = isCorrect ? 'correct-answer' : 'wrong-answer';
+                let feedbackText = isCorrect ? 'Đáp án của bạn đúng.' : 'Đáp án của bạn chưa chính xác.';
+
+                listItem.innerHTML = `
+                    <strong>${questionText}</strong><br>
+                    - Đáp án của bạn: <span class="user-answer ${feedbackClass}">${userAnswer || "Bạn chưa trả lời."}</span><br>
+                    - Đáp án đúng: <span class="correct-answer">${correctAnswers[key].text}</span>
+                `;
+                answerList.appendChild(listItem);
+            }
+        });
+    </script>
+</body>
+</html>
